@@ -1,5 +1,5 @@
 from database import Base
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String, inspect
 from sqlalchemy.types import DateTime
 
 class Items(Base):
@@ -12,3 +12,7 @@ class Items(Base):
     quantity = Column(Integer)
     description = Column(String(256))
     date_added = Column(DateTime())
+
+def object_as_dict(obj):
+    return {c.key: getattr(obj, c.key)
+            for c in inspect(obj).mapper.column_attrs}
